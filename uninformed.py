@@ -30,6 +30,7 @@ GRAPH = {
             'Neamt': {'Iasi': 87}
         }
 
+
 def bf_search(graph, start, goal):
     explored = []
     queue = [[start]]
