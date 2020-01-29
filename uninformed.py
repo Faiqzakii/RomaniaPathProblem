@@ -1,32 +1,33 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 """
 Created on Sat Jan 25 02:14:44 2020
 
 @author: faiqzakii
 """
 
-GRAPH = {\
-            'Arad': {'Zerind': 75, 'Timisoara': 118, 'Sibiu': 140},\
-            'Zerind': {'Arad': 75, 'Oradea': 71},\
-            'Oradea': {'Zerind': 71, 'Sibiu': 151},\
-            'Sibiu': {'Arad': 140, 'Oradea': 151, 'Fagaras': 99, 'Rimnicu': 80},\
-            'Timisoara': {'Arad': 118, 'Lugoj': 111},\
-            'Lugoj': {'Timisoara': 111, 'Mehadia': 70},\
-            'Mehadia': {'Lugoj': 70, 'Drobeta': 75},\
-            'Drobeta': {'Mehadia': 75, 'Craiova': 120},\
-            'Craiova': {'Drobeta': 120, 'Rimnicu': 146, 'Pitesti': 138},\
-            'Rimnicu': {'Sibiu': 80, 'Craiova': 146, 'Pitesti': 97},\
-            'Fagaras': {'Sibiu': 99, 'Bucharest': 211},\
-            'Pitesti': {'Rimnicu': 97, 'Craiova': 138, 'Bucharest': 101},\
-            'Bucharest': {'Fagaras': 211, 'Pitesti': 101, 'Giurgiu': 90, 'Urziceni': 85},\
-            'Giurgiu': {'Bucharest': 90},\
-            'Urziceni': {'Bucharest': 85, 'Vaslui': 142, 'Hirsova': 98},\
-            'Hirsova': {'Urziceni': 98, 'Eforie': 86},\
-            'Eforie': {'Hirsova': 86},\
-            'Vaslui': {'Iasi': 92, 'Urziceni': 142},\
-            'Iasi': {'Vaslui': 92, 'Neamt': 87},\
-            'Neamt': {'Iasi': 87}\
+GRAPH = {
+            'Arad': {'Zerind': 75, 'Timisoara': 118, 'Sibiu': 140},
+            'Zerind': {'Arad': 75, 'Oradea': 71},
+            'Oradea': {'Zerind': 71, 'Sibiu': 151},
+            'Sibiu': {'Arad': 140, 'Oradea': 151, 'Fagaras': 99, 'Rimnicu': 80},
+            'Timisoara': {'Arad': 118, 'Lugoj': 111},
+            'Lugoj': {'Timisoara': 111, 'Mehadia': 70},
+            'Mehadia': {'Lugoj': 70, 'Drobeta': 75},
+            'Drobeta': {'Mehadia': 75, 'Craiova': 120},
+            'Craiova': {'Drobeta': 120, 'Rimnicu': 146, 'Pitesti': 138},
+            'Rimnicu': {'Sibiu': 80, 'Craiova': 146, 'Pitesti': 97},
+            'Fagaras': {'Sibiu': 99, 'Bucharest': 211},
+            'Pitesti': {'Rimnicu': 97, 'Craiova': 138, 'Bucharest': 101},
+            'Bucharest': {'Fagaras': 211, 'Pitesti': 101, 'Giurgiu': 90, 'Urziceni': 85},
+            'Giurgiu': {'Bucharest': 90},
+            'Urziceni': {'Bucharest': 85, 'Vaslui': 142, 'Hirsova': 98},
+            'Hirsova': {'Urziceni': 98, 'Eforie': 86},
+            'Eforie': {'Hirsova': 86},
+            'Vaslui': {'Iasi': 92, 'Urziceni': 142},
+            'Iasi': {'Vaslui': 92, 'Neamt': 87},
+            'Neamt': {'Iasi': 87}
         }
 
 def bf_search(graph, start, goal):
@@ -49,16 +50,16 @@ def bf_search(graph, start, goal):
 
             for neighbour in neighbours:
                 #Copy path dan diubah menjadi list
-                new_path = list(path)
+                current_path = list(path)
 
                 #Append neighbour node kedalam path
-                new_path.append(neighbour)
+                current_path.append(neighbour)
 
                 #Masukkan antrian baru
-                queue.append(new_path)
+                queue.append(current_path)
 
                 #Mengeluarkan path saat ini dan di print
-                yield new_path
+                yield current_path
 
                 if neighbour == goal:
                     return
@@ -85,16 +86,16 @@ def df_search(graph, start, goal):
 
             for neighbour in neighbours:
                 #Copy path dan diubah menjadi list
-                new_path = list(path)
+                current_path = list(path)
 
                 #Append neighbour node kedalam path
-                new_path.append(neighbour)
+                current_path.append(neighbour)
 
                 #Masukkan antrian baru
-                stack.append(new_path)
+                stack.append(current_path)
 
                 #Mengeluarkan path saat ini dan di print
-                yield new_path
+                yield current_path
 
                 if neighbour == goal:
                     return
@@ -122,16 +123,16 @@ def df__limited_search(graph, start, goal, limit = 5):
 
                 for neighbour in neighbours:
                     #Copy path dan diubah menjadi list
-                    new_path = list(path)
+                    current_path = list(path)
 
                     #Append neighbour node kedalam path
-                    new_path.append(neighbour)
+                    current_path.append(neighbour)
 
                     #Masukkan antrian baru
-                    stack.append(new_path)
+                    stack.append(current_path)
 
                     #Mengeluarkan path saat ini dan di print
-                    yield new_path
+                    yield current_path
 
                     if neighbour == goal:
                         return
@@ -140,7 +141,7 @@ def df__limited_search(graph, start, goal, limit = 5):
         else:
             continue
 
-    if new_path[-1] == goal:
+    if current_path[-1] == goal:
         return
     else:
         print('Tidak terdapat jalur menuju {} dalam {} langkah'.format(goal, limit))
@@ -148,9 +149,12 @@ def df__limited_search(graph, start, goal, limit = 5):
 def uc_search(graph, start, goal):
     from queue import PriorityQueue
 
-    prior_queue, visited = PriorityQueue(), {}
+    prior_queue = PriorityQueue()
+    explored = {}
+
+    """parameter PriorityQueue (cost so far, node yang dikunjungi saat ini, path yang telah dilalui) """
     prior_queue.put((0, start, [start]))
-    visited[start] = 0
+    explored[start] = 0
 
     while prior_queue:
         (cost, node, path) = prior_queue.get()
@@ -161,8 +165,8 @@ def uc_search(graph, start, goal):
         for neighbour in graph[node].keys():
             current_cost = cost + graph[node][neighbour]
 
-            if neighbour not in visited or visited[neighbour] >= current_cost:
-                visited[neighbour] = current_cost
+            if neighbour not in explored or explored[neighbour] >= current_cost:
+                explored[neighbour] = current_cost
                 prior_queue.put((current_cost, neighbour, path + [neighbour]))
 
 def main():
