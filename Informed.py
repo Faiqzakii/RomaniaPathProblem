@@ -29,7 +29,7 @@ GRAPH = {
             'Eforie': {'Hirsova': 86},
             'Vaslui': {'Iasi': 92, 'Urziceni': 142},
             'Iasi': {'Vaslui': 92, 'Neamt': 87},
-            'Neamt': {'Iasi': 87}
+            'Neamt': {'Iasi': 87} 
         }
 
 straigth_line = {
@@ -70,37 +70,36 @@ def greedy(graph, start, goal):
 
         for neighbour in graph[node].keys():
             heuristic = straigth_line[neighbour]
-            print(path + [neighbour])
 
             if neighbour not in explored:
                 prior_queue.put((heuristic, neighbour, path + [neighbour]))
 
     if node != goal:
         return("Tidak ada jalur yang dapat dilewati")
-    
+
 def astar(graph, start, goal):
     prior_queue = PriorityQueue()
     explored = {}
 
-    """Parameter PriorityQueue (heuristic information, cost so far, node saat ini, path yang telah dilalui)"""
+    """Parameter PriorityQueue (est_cost, cost so far, node saat ini, path yang telah dilalui)"""
     prior_queue.put((straigth_line[start], 0, start, [start]))
 
     explored[start] = straigth_line[start]
 
     while prior_queue:
-        (heuristic, cost, node, path) = prior_queue.get()
+        (est_cost, cost, node, path) = prior_queue.get()
 
         if node == goal:
-            return heuristic, cost, path
+            return est_cost, cost, path
 
         for neighbour in graph[node].keys():
             current_cost = cost + graph[node][neighbour]
-            heuristic = current_cost + straigth_line[neighbour]
-            print(path + [neighbour])
+            heuristic = straigth_line[neighbour]
+            est_cost = current_cost + heuristic
 
-            if neighbour not in explored or explored[neighbour] >= heuristic:
-                explored[neighbour] = heuristic
-                prior_queue.put((heuristic, current_cost, neighbour, path + [neighbour]))
+            if neighbour not in explored or explored[neighbour] >= est_cost:
+                explored[neighbour] = est_cost
+                prior_queue.put((est_cost, current_cost, neighbour, path + [neighbour]))
 
     if node != goal:
         return("Tidak ada jalur yang dapat dilewati")
