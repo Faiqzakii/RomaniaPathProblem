@@ -29,7 +29,7 @@ GRAPH = {
             'Eforie': {'Hirsova': 86},
             'Vaslui': {'Iasi': 92, 'Urziceni': 142},
             'Iasi': {'Vaslui': 92, 'Neamt': 87},
-            'Neamt': {'Iasi': 87} 
+            'Neamt': {'Iasi': 87}
         }
 
 straigth_line = {
